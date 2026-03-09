@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LA 2076 - Mayoral Campaign Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+</head>
+<body>
+    <div id="gameContainer">
+        <!-- Game Setup Screen -->
+        <div id="setupScreen" class="screen">
+            <div class="setup-content">
+                <h1>LA 2076</h1>
+                <p>Become the Mayor of Los Angeles</p>
+                
+                <div class="setup-form">
+                    <label for="playerCount">Number of Players:</label>
+                    <select id="playerCount">
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>
+                    
+                    <button id="startGameBtn" class="btn-primary">Start Game</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Player Names Screen -->
+        <div id="playerNamesScreen" class="screen hidden">
+            <div class="setup-content">
+                <h2>Enter Player Names</h2>
+                <div id="playerNamesForm"></div>
+                <button id="continueBtn" class="btn-primary">Continue to Role Selection</button>
+            </div>
+        </div>
+
+        <!-- Role Selection Screen -->
+        <div id="roleSelectionScreen" class="screen hidden">
+            <div class="setup-content">
+                <h2>Select Your Role</h2>
+                <p id="currentPlayerRole"></p>
+                <div id="rolesContainer" class="roles-grid"></div>
+                <button id="selectRoleBtn" class="btn-primary">Select Role</button>
+            </div>
+        </div>
+
+        <!-- Main Game Screen -->
+        <div id="gameScreen" class="screen hidden">
+            <div class="game-layout">
+                <!-- Left Sidebar -->
+                <div class="sidebar left-sidebar">
+                    <div class="game-info">
+                        <div class="timer-display">
+                            <h3>Time Remaining</h3>
+                            <div id="timerDisplay" class="timer">20:00</div>
+                        </div>
+                        <div class="current-player-info">
+                            <h3>Current Player</h3>
+                            <div id="currentPlayerName" class="player-name">Player 1</div>
+                            <div id="currentPlayerColor" class="player-color-box"></div>
+                        </div>
+                        <div class="moves-display">
+                            <h3>Moves Remaining</h3>
+                            <div id="movesRemaining" class="moves-count">5</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center: Game Board -->
+                <div class="main-board">
+                    <div id="p5_container" style="position: relative;"></div>
+                    <div id="boardContainer" class="board-container">
+                        <svg id="gameBoard" width="1000" height="800" viewBox="0 0 900 700"></svg>
+                    </div>
+                </div>
+
+                <!-- Right Sidebar -->
+                <div class="sidebar right-sidebar">
+                    <div class="game-panel">
+                        <!-- Current Player Stats -->
+                        <div class="stats-panel">
+                            <h3>Your Stats</h3>
+                            <div class="stat-item">
+                                <span>Votes:</span>
+                                <span id="playerVotes" class="stat-value">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Resources:</span>
+                                <span id="playerResources" class="stat-value">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Billboards:</span>
+                                <span id="playerBillboards" class="stat-value">0</span>
+                            </div>
+                        </div>
+
+                        <!-- Player Standings -->
+                        <div class="standings-panel">
+                            <h3>Standings</h3>
+                            <div id="standingsList" class="standings-list"></div>
+                        </div>
+                    </div>
+
+                    <!-- Action Panel -->
+                    <div class="action-panel">
+                        <h3>Actions (5 moves/turn)</h3>
+                        <p style="font-size: 12px; margin-bottom: 10px; color: #666;">
+                            <strong>Move:</strong> Click adjacent spots on board
+                        </p>
+                        <button id="drawPolicyBtn" class="btn-action">Draw Policy Card</button>
+                        <button id="drawResourceBtn" class="btn-action">Draw Resource Card</button>
+                        <button id="endTurnBtn" class="btn-action btn-end-turn">End Turn</button>
+                    </div>
+
+                    <!-- Hand Display -->
+                    <div class="hand-panel">
+                        <h3>Policy Hand (Click to Discard)</h3>
+                        <div id="policyHand" class="card-hand"></div>
+                    </div>
+
+                    <!-- Campaign Actions -->
+                    <div class="campaign-panel">
+                        <h3>Campaign Actions</h3>
+                        <button id="buyBillboardBtn" class="btn-action" disabled>Buy Billboard (3 Resources)</button>
+                        <button id="hostEventBtn" class="btn-action" disabled>Host Campaign Event (5 Resources)</button>
+                        <button id="sabotageBtn" class="btn-action" disabled>Political Sabotage (10 Resources)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Modal -->
+        <div id="eventModal" class="modal hidden">
+            <div class="modal-content">
+                <h2 id="eventTitle">Event Encountered</h2>
+                <div id="eventCard" class="event-display"></div>
+                <div id="eventActions" class="event-actions"></div>
+            </div>
+        </div>
+
+        <!-- End Game Screen -->
+        <div id="endGameScreen" class="screen hidden">
+            <div class="setup-content">
+                <h1>Election Results</h1>
+                <div id="finalResults" class="final-results"></div>
+                <button id="playAgainBtn" class="btn-primary">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="p5_sketch.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
