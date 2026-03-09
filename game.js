@@ -534,30 +534,28 @@ class Game {
         // Draw labels with better positioning to avoid overlap
         LABoardSpots.forEach((spot, idx) => {
             // Calculate label position to minimize overlaps
-            const labelY = spot.y + 38;
+            const labelY = spot.y + 28;
             
-            // Background rectangle for text
+            // Background rectangle for text (smaller and more compact)
             const bgRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-            bgRect.setAttribute("x", spot.x - 50);
-            bgRect.setAttribute("y", labelY - 12);
-            bgRect.setAttribute("width", "100");
-            bgRect.setAttribute("height", "18");
+            bgRect.setAttribute("x", spot.x - 35);
+            bgRect.setAttribute("y", labelY - 8);
+            bgRect.setAttribute("width", "70");
+            bgRect.setAttribute("height", "14");
             bgRect.setAttribute("fill", "white");
-            bgRect.setAttribute("opacity", "0.85");
-            bgRect.setAttribute("rx", "3");
-            bgRect.setAttribute("stroke", "none");
+            bgRect.setAttribute("opacity", "0.9");
+            bgRect.setAttribute("rx", "2");
+            bgRect.setAttribute("stroke", "#ddd");
+            bgRect.setAttribute("stroke-width", "0.5");
             labelsGroup.appendChild(bgRect);
-
-            // Label text
+            
+            // Label text (smaller font)
             const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
             text.setAttribute("x", spot.x);
             text.setAttribute("y", labelY);
             text.setAttribute("text-anchor", "middle");
-            text.setAttribute("font-size", "12");
-            text.setAttribute("font-weight", "600");
-            text.setAttribute("fill", "#1a1a1a");
-            text.setAttribute("pointer-events", "none");
-            text.textContent = spot.name;
+            text.setAttribute("font-size", "10");
+            text.setAttribute("font-weight", "500");
             labelsGroup.appendChild(text);
         });
 
@@ -777,10 +775,13 @@ class Game {
                 </div>
             `;
 
-            let actionHtml = `<button class="btn-resolve" onclick="game.resolveEventNoPolicy(${card.voteValue})">Take ${card.voteValue} votes (no policy)</button>`;
+            let actionHtml = '';
             
             if (matchingCards.length > 0) {
-                actionHtml += `<button class="btn-resolve" onclick="game.resolveEventWithPolicy()">Use Policy Card(s)</button>`;
+                actionHtml = `<button class="btn-resolve" onclick="game.resolveEventWithPolicy()">Use Policy Card(s) for ${card.voteValue} votes</button>`;
+            } else {
+                actionHtml = `<p style="color: #666; font-size: 14px;">You need a matching policy card to gain votes from this event.</p>
+                              <button class="btn-cancel" onclick="game.closeEventModal()">Continue (no votes gained)</button>`;
             }
 
             eventActions.innerHTML = actionHtml;
@@ -789,22 +790,14 @@ class Game {
         modal.classList.remove("hidden");
     }
 
-    resolveEventNoPolicy(voteValue) {
-        const player = this.getCurrentPlayer();
-        player.votes = Math.max(0, player.votes + voteValue);
-        this.currentDisplayedEvent = null;
-        this.closeEventModal();
-        this.updateUI();
-    }
-
     resolveEventWithPolicy() {
-        // Simple implementation: add votes from first matching card
+        // Use policy card to gain votes from event
         const player = this.getCurrentPlayer();
         const currentEvent = this.currentDisplayedEvent;
         
         const matchingCard = player.policyCards.find(p => p.color === currentEvent.color);
         if (matchingCard) {
-            player.votes += matchingCard.votes;
+            player.votes += currentEvent.voteValue;
             player.policyCards = player.policyCards.filter(p => p !== matchingCard);
         }
         
@@ -840,6 +833,11 @@ class Game {
     drawPolicyCard() {
         const player = this.getCurrentPlayer();
         
+        if (this.movesRemaining <= 0) {
+            alert("No moves remaining this turn!");
+            return;
+        }
+        
         if (player.policyCards.length >= 5) {
             alert("You can only hold 5 policy cards. Discard one first (click on it in your hand).");
             return;
@@ -852,11 +850,17 @@ class Game {
 
         const card = this.policyDeck.pop();
         player.policyCards.push(card);
+        this.movesRemaining--;
         this.updateUI();
     }
 
     drawResourceCard() {
         const player = this.getCurrentPlayer();
+        
+        if (this.movesRemaining <= 0) {
+            alert("No moves remaining this turn!");
+            return;
+        }
         
         if (this.resourceDeck.length === 0) {
             alert("No more resource cards!");
@@ -865,6 +869,7 @@ class Game {
 
         player.resources += 1;
         this.resourceDeck.pop();
+        this.movesRemaining--;
         this.updateUI();
     }
 

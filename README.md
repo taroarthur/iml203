@@ -34,9 +34,9 @@ You have **5 moves** per turn. You can use moves for:
    - Red circles are Event spots
    - Click on a neighboring spot to move there
 
-2. **Pick Up Cards** (varies)
-   - Draw a Policy Card (use 1 move or 0 if Labor Union rep)
-   - Draw a Resource Card (use 1 move)
+2. **Pick Up Cards** (1 move each)
+   - Draw a Policy Card (1 move, or 0 if Labor Union rep)
+   - Draw a Resource Card (1 move)
    - Max 5 Policy Cards in hand (must discard to collect more)
    - Unlimited Resource Cards
 
@@ -49,10 +49,10 @@ You have **5 moves** per turn. You can use moves for:
 
 When you land on an Event Spot (red):
 
-- **Regular Event**: You gain votes
-  - With matching Policy Card of same color: Use policy to gain policy votes instead
-  - Without: Take base event votes
-  - Can use up to 3 Policy Cards per event
+- **Regular Event**: Requires matching Policy Card to gain votes
+  - Must have Policy Card of same color as event
+  - Gain event votes and discard the matching policy card
+  - If no matching card: No votes gained, continue playing
 
 - **Scandal Card**: You lose 20 votes OR spend 2 Resources to cancel
   - You CANNOT have negative votes (minimum 0)
@@ -92,11 +92,11 @@ When the 20-minute timer reaches zero:
 
 ## Strategy Tips
 
-1. **Focus on Events**: Event spots give the most votes
-2. **Collect Matching Policies**: Match policy color to event color for bonus votes
-3. **Resource Management**: Save resources for campaign actions
-4. **Sabotage**: Use sabotage on opponents with many billboards
-5. **Position Matters**: Control areas with event spots
+1. **Collect Matching Policies**: Essential for gaining votes from events - match policy color to event color
+2. **Plan Your Moves**: Card drawing costs moves, so balance movement with card collection
+3. **Resource Management**: Save resources for campaign actions and scandal avoidance
+4. **Event Spot Control**: Position yourself to land on events when you have matching policies
+5. **Sabotage**: Use sabotage on opponents with many billboards
 
 ## Technical Details
 
