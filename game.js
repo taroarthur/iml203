@@ -563,58 +563,13 @@ class Game {
     }
 
     drawLAMap(svg) {
-        // Create a background group
+        // Create a background group - removed background elements to let p5.js show through
         const mapGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
         mapGroup.setAttribute("id", "la-map-background");
         svg.insertBefore(mapGroup, svg.firstChild);
 
-        // Draw ocean/coastline
-        const ocean = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-        ocean.setAttribute("x", "0");
-        ocean.setAttribute("y", "0");
-        ocean.setAttribute("width", "900");
-        ocean.setAttribute("height", "700");
-        ocean.setAttribute("fill", "#e3f2fd");
-        mapGroup.appendChild(ocean);
-
-        // Draw coast line (approximation of LA coast)
-        const coastPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        coastPath.setAttribute("d", "M 200,50 Q 150,100 140,200 Q 130,300 160,400 Q 180,500 250,600 Q 320,700 400,700 L 900,700 L 900,0 Q 800,80 650,100 Q 500,120 200,50 Z");
-        coastPath.setAttribute("fill", "#b3e5fc");
-        coastPath.setAttribute("opacity", "0.6");
-        mapGroup.appendChild(coastPath);
-
-        // Mountain/hill regions (north)
-        const northMountains = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
-        northMountains.setAttribute("cx", "500");
-        northMountains.setAttribute("cy", "150");
-        northMountains.setAttribute("rx", "200");
-        northMountains.setAttribute("ry", "100");
-        northMountains.setAttribute("fill", "#d7ccc8");
-        northMountains.setAttribute("opacity", "0.3");
-        mapGroup.appendChild(northMountains);
-
-        // Santa Monica Mountains (west)
-        const westMountains = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
-        westMountains.setAttribute("cx", "250");
-        westMountains.setAttribute("cy", "250");
-        westMountains.setAttribute("rx", "120");
-        westMountains.setAttribute("ry", "150");
-        westMountains.setAttribute("fill", "#d7ccc8");
-        westMountains.setAttribute("opacity", "0.25");
-        mapGroup.appendChild(westMountains);
-
-        // San Gabriel Mountains (east/northeast)
-        const eastMountains = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
-        eastMountains.setAttribute("cx", "750");
-        eastMountains.setAttribute("cy", "200");
-        eastMountains.setAttribute("rx", "100");
-        eastMountains.setAttribute("ry", "140");
-        eastMountains.setAttribute("fill", "#d7ccc8");
-        eastMountains.setAttribute("opacity", "0.3");
-        mapGroup.appendChild(eastMountains);
-
-        // Major freeway corridors (visual only)
+        // Only draw minimal visual elements that complement the p5.js satellite map
+        // Major freeway corridors (visual only, subtle)
         const freeways = [
             // 405 corridor
             { points: "M 350,100 Q 380,250 400,400 Q 420,600 450,700", name: "405" },
